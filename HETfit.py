@@ -139,7 +139,9 @@ def design(P,U):
     h = zhd[0]*d+zhd[1]
     m_a = zmhd[0]*h*d#+zmhd[1]
     T = (zmut[0]*m_a*(U)**0.5)*1e-3#+zmut[1]
-    return print('d =',d,'\nh =',h,'\nm_a =',m_a,'\nT =',T)
+    Isp = T/(9.81*m_a*1e-3)
+    nu_t = T/(2*m_a*1e-3*P)
+    return print('d =',d,'\nh =',h,'\nm_a =',m_a,'\nT =',T,'\nIsp',Isp,'\nnu_t',nu_t)
 def plot():
     plot_1(X1, p1(X1))
     plot_2(X2, p2(X2))
