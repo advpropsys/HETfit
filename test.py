@@ -1,4 +1,4 @@
-import HETfit.HETfit as h
+import HETfit as h
 import pandas as pd
 import numpy as np
 
