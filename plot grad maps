@@ -1,0 +1,32 @@
+import plotly.express as px
+import pandas as pd
+df  = pd.read_csv('700w class thruster perfomance1.csv') 
+
+df2 = df[['h', 'd','nu_t']].copy()
+df=df.drop(columns=['nu_t'])
+df2['h']= df2['h']*df2['d']
+df2=df2.drop(columns=['d'])
+df2.rename(columns={'h': 'hd'}, inplace=True)
+col=df2.values[0:3]
+df = pd.concat([df,df2],axis=1)
+print(df)
+fig = px.scatter(df, x='m_a', y='U', color='Isp',log_y=[0.01, 1000], color_continuous_scale=px.colors.sequential.Sunsetdark)
+fi1 = px.scatter(df, x='T', y='m_a', color='nu_t', color_continuous_scale=px.colors.sequential.Sunsetdark)
+fi2 = px.scatter(df, x='d', y='h', color='nu_t', color_continuous_scale=px.colors.sequential.Sunsetdark)
+fi3 = px.scatter(df, x='Isp', y='j', color='U', color_continuous_scale=px.colors.sequential.Sunsetdark)
+
+fi4 = px.scatter(df, x='T', y='hd', color='U',
+    # trendline_scope = 'overall',
+    #trendline='ols', 
+    color_continuous_scale=px.colors.sequential.Sunsetdark
+)
+
+fi5 = px.scatter(df, x='T', y='hd', color='nu_t',
+    # trendline_scope = 'overall',
+    #trendline='ols', 
+    color_continuous_scale=px.colors.sequential.Sunsetdark
+)
+
+
+#fig.show()
+fi5.show()

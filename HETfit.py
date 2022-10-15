@@ -135,13 +135,29 @@ class HETfit:
         X4=X
         print('Your 1d polynomial fit of T = Cm_a*U**0.5 + C1 resulted in',zmut)
 def design(P,U):
+    global j
     d = np.sqrt((P-zpud[1])/(zpud[0])*U)*2
     h = zhd[0]*d+zhd[1]
     m_a = zmhd[0]*h*d#+zmhd[1]
-    T = (zmut[0]*m_a*(U)**0.5)*1e-3#+zmut[1]
+    T = (zmut[0]*m_a*(U)**0.5)*1e-3#zmut[1]
     Isp = T/(9.81*m_a*1e-3)
-    nu_t = T/(2*m_a*1e-3*P)
-    return print('d =',d,'\nh =',h,'\nm_a =',m_a,'\nT =',T,'\nIsp',Isp,'\nnu_t',nu_t)
+    nu_t =  T*9.81*Isp*1e-3/(2*P) #T/(2*m_a*1e-3*P) 
+    if nu_t > 0.65: nu_t=0.65
+    v = h*d*h
+    j = P/v
+
+    return  U,d,h,j,Isp,nu_t,T,m_a #print('d =',d,'\nh =',h,'\nm_a =',m_a,'\nT =',T,'\nIsp',Isp,'\nnu_t',nu_t, '\nP_j', j),
+def density(P,U):
+    d = np.sqrt((P)/(zpud[0])*U)*2 #-zpud[1]
+    h = zhd[0]*d#+zhd[1]
+    v = np.pi*h*((d+h/2)**2-(d-h/2)**2)
+    j = P/v
+    m_a = zmhd[0]*h*d#+zmhd[1]
+    T = (zmut[0]*m_a*(U)**0.5)*1e-3#+zmut[1]
+    Td=T/v
+    Isp = (T/(9.81*m_a*1e-3))
+    nu_t = T*9.81*Isp*1e-3/(2*P)
+    return nu_t,Isp, j, m_a, T, Td
 def plot():
     plot_1(X1, p1(X1))
     plot_2(X2, p2(X2))

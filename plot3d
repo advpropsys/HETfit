@@ -1,0 +1,16 @@
+
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+df= pd.read_csv('fooo.csv')  
+# df.to_numpy
+X=df.iloc[:,1].to_numpy()
+Y=df.iloc[:,5].to_numpy()
+Z=df.iloc[:,0:1].to_numpy()
+
+fig = plt.figure()
+ax = plt.axes(projection='3d')
+
+
+ax.plot_surface(X, Y, Z, rstride=1, cstride=1,cmap='viridis',edgecolor='none')
+plt.show()
